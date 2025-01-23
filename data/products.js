@@ -1,0 +1,77 @@
+const products = [
+    {
+        name: 'Coors Botellon 330cc',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=2509&field=image_1024',
+        price: '$4.900',
+        originalPrice: '$12.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Austral Calafate Patagonia',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=13362&field=image_1024',
+        price: '$11.990',
+        originalPrice: '$13.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Heineken 350cc ',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=2511&field=image_1024',
+        price: '$12.990',
+        originalPrice: '$17.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Cerveza original SOL',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=2525&field=image_1024',
+        price: '$11.900',
+        originalPrice: '$15.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Royal Guard American Pale Ale',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=13794&field=image_1024',
+        price: '$13.990',
+        originalPrice: '$18.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Heineken Silver Lager',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=11610&field=image_1024',
+        price: '$11.990',
+        originalPrice: '$17.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Coors Original',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=4464&field=image_1024',
+        price: '$9.990',
+        originalPrice: '$12.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    },
+    {
+        name: 'Pataginia 470cc Variedades',
+        image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=16472&field=image_1024',
+        price: '$17.990',
+        originalPrice: '$19.990',
+        buttonText: 'Añadir',
+        sale: true,
+        rating: 5,
+    }
+    // Agrega más productos aquí
+];
+
+export default products;
