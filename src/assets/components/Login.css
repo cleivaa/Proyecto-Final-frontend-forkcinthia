@@ -1,3 +1,35 @@
+
+.plox {
+	 /* Ruta de la imagen */
+	background-size: cover; /* La imagen cubrirá todo el fondo */
+	background-position: center; /* Centra la imagen */
+ /* Evita que la imagen se repita */
+	min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+	display: flex; /* Usa flexbox para centrar el formulario */
+	justify-content: center; /* Centra horizontalmente */
+	align-items: center; /* Centra verticalmente */
+	padding: 20px; /* Opcional: Espaciado interior */
+	
+	
+	
+  }
+
+.plox::before {
+	content: '';
+	position: fixed;
+	background-size: cover; /* La imagen cubrirá todo el fondo */
+	background-position: center; /* Centra la imagen */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('../../../public/img/Background\ login.jpg'); /* Hereda el fondo del contenedor */
+	
+	filter: blur(10px); /* Ajusta el nivel de desenfoque */
+	z-index: -1; /* Coloca la capa detrás del contenido */
+  }
+  
+
 .Logintext {
 	margin-top: 20px;
 	padding: 10px;
@@ -23,3 +55,10 @@
   .btn {
 	padding: 10px;
   }
+
+  /* Aplica a un contenedor específico */
+.login-form-container {
+	max-width: 30%;  /* Reduce el ancho al 70% del ancho total de la pantalla (30% menos) */
+	margin: 0 auto;  /* Centra el formulario horizontalmente */
+  }
+  
