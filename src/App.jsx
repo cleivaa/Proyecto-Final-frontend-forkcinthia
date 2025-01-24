@@ -7,6 +7,7 @@ import Footer from './assets/components/Footer';
 import products from "../data/products";
 import { Login } from './assets/components/Login'; // Asegúrate de importar Login
 import { UserProvider } from './context/UserContext'; // Asegúrate de importar UserProvider
+import { Cart } from './assets/components/Cart';
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<ProductList products={products} />} />
                         <Route path="/login" element={<Login />} /> {/* Ruta para Login */}
+                        <Route path="/cart" element={<Cart />} /> {/* Ruta para Cart */}    
                     </Routes>
                     <Footer />
                 </div>
