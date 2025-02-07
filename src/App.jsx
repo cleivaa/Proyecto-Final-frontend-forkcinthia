@@ -9,6 +9,7 @@ import { Login } from './assets/components/Login'; // Asegúrate de importar Log
 import { UserProvider } from './context/UserContext'; // Asegúrate de importar UserProvider
 import { Cart } from './assets/components/Cart';
 import Register from './assets/components/Register';
+import ProductGalery from './assets/components/ProductGalery';
 
 const App = () => {
     return (
@@ -21,7 +22,7 @@ const App = () => {
                         <Route path="/login" element={<Login />} /> {/* Ruta para Login */}
                         <Route path="/cart" element={<Cart />} /> {/* Ruta para Cart */}    
                         <Route path="/registrate" element={<Register />} />
-
+                        <Route path="/catalogo" element={<ProductGalery products={products} />} />
                     </Routes>
                     <Footer />
                 </div>
