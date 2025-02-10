@@ -8,6 +8,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 2,
@@ -28,6 +30,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 4,
@@ -38,6 +42,8 @@ const products = [
         buttonText: 'Añadir',
         sale: false,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 5,
@@ -48,6 +54,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 6,
@@ -58,6 +66,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 7,
@@ -68,6 +78,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+
     },
     {
         id: 8,
@@ -78,6 +90,8 @@ const products = [
         buttonText: 'Añadir',
         sale: true,
         rating: 5,
+        description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+        
     }
     // Agrega más productos aquí
 ];

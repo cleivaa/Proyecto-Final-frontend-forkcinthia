@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const ProductCard = ({ product, onAddProduct }) => {
     const formatPrice = (price) => {
@@ -34,9 +35,19 @@ export const ProductCard = ({ product, onAddProduct }) => {
                     </div>
                 </div>
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div className="text-cente d-flex justify-content-between">
-                        <a className="btn btn-outline-warning mt-auto text-dark" href="#!">Ver Producto</a>
-                        <button className="btn btn-outline-warning mt-auto text-dark" onClick={() => onAddProduct(product)}>Añadir</button>
+                    <div className="text-center d-flex justify-content-between">
+                        <Link 
+                            to={`/producto/${product.id}`} 
+                            className="btn btn-outline-warning mt-auto text-dark"
+                        >
+                            Ver Producto
+                        </Link>
+                        <button 
+                            className="btn btn-outline-warning mt-auto text-dark" 
+                            onClick={() => onAddProduct(product)}
+                        >
+                            Añadir
+                        </button>
                     </div>
                 </div>
             </div>

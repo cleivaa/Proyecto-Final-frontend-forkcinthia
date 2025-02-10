@@ -11,6 +11,7 @@ import { Cart } from './assets/components/Cart';
 import Register from './assets/components/Register';
 import ProductGalery from './assets/components/ProductGalery';
 import { ProductCard } from './assets/components/ProductCard'; // Cambiado: eliminado los corchetes
+import ProductDetail from './assets/components/ProductDetail'; // Asegúrate de importar ProductDetail
 
 const App = () => {
     const [allProducts, setAllProducts] = useState([]);
@@ -99,6 +100,15 @@ const App = () => {
                                 onAddProduct={onAddProduct}
                             />
                         } />
+                        <Route 
+                            path="/producto/:id" 
+                            element={
+                                <ProductDetail 
+                                    products={products} 
+                                    onAddProduct={onAddProduct}
+                                />
+                            } 
+                        />
                     </Routes>
                 </div>
                 <Footer />
