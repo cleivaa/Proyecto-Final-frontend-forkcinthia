@@ -1,16 +1,13 @@
 import React from 'react';
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, onAddProduct }) => {
     const formatPrice = (price) => {
         return new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", minimumFractionDigits: 0 }).format(price);
     };
 
     return (
-
-        
-        <div className="col mb-5">
-            
-            <div className="card h-100">
+        <div className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+            <div className="card h-100" style={{ maxWidth: '300px', margin: '0 auto' }}>
                 {product.sale && (
                     <div className="badge bg-dark text-white position-absolute " style={{ top: '0.5rem', right: '0.5rem' }}>
                         {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
@@ -34,18 +31,15 @@ const ProductCard = ({ product }) => {
                         ) : (
                             <span>{formatPrice(product.originalPrice)}</span>
                         )}
-    
                     </div>
                 </div>
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                     <div className="text-cente d-flex justify-content-between">
                         <a className="btn btn-outline-warning mt-auto text-dark" href="#!">Ver Producto</a>
-                        <a className="btn btn-outline-warning mt-auto text-dark" href="#!">{product.buttonText}</a>
+                        <button className="btn btn-outline-warning mt-auto text-dark" onClick={() => onAddProduct(product)}>Añadir</button>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-
-export default ProductCard;

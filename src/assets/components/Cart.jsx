@@ -1,79 +1,64 @@
 import React, { useState } from 'react';
-import { useCart } from '../../context/CartContext';
-import { useUser } from '../../context/UserContext'; // Importa el hook useUser
 
-export const Cart = () => {
-  const { allProducts, total, deleteFromCart, cleanCart } = useCart();
-  const { token } = useUser(); 
-  const [successMessage, setSuccessMessage] = useState(""); // Estado para el mensaje de éxito
+export const Cart = ({ allProducts, countProducts, total, onAddProduct, onDeleteProduct, onCleanCart }) => {
+  return (
+    <div>
+      <h2>Carrito de Compras</h2>
+      <ul>
+        {allProducts.map(product => (
+          <li key={product.id}>
+            {product.name} - {product.quantity} x ${product.price}
+            <button onClick={() => onDeleteProduct(product)}>Eliminar</button>
+          </li>
+        ))}
+      </ul>
+      <p>Total: ${total}</p>
+      <p>Productos en el carrito: {countProducts}</p>
+      <button onClick={onCleanCart}>Limpiar Carrito</button>
+    </div>
+  );
+};
 
-  console.log("Token value in Cart:", token); // Añade esto para verificar el valor
+const CartContainer = () => {
+  const [allProducts, setAllProducts] = useState([]);
+  const [countProducts, setCountProducts] = useState(0);
+  const [total, setTotal] = useState(0);
 
-  if (!token) {
-    return <p>🔒 Debes iniciar sesión para ver el carrito de compras</p>;
-  }
-
-  // Función para enviar el carrito al backend
-  const handleCheckout = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/checkouts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Envía el token de autenticación
-        },
-        body: JSON.stringify({
-          products: allProducts,
-          total: total
-        })
-      });
-
-      // Manejar la respuesta del servidor
-      if (!response.ok) {
-        throw new Error('Error en la compra');
-      }
-
-      const data = await response.json();
-      console.log('Checkout successful:', data);
-      setSuccessMessage("Compra realizada exitosamente!"); // Establece el mensaje de éxito
-
-      // Limpiar el carrito después de la compra
-      cleanCart();
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      alert("Hubo un problema al procesar tu compra.");
+  const onAddProduct = (product) => {
+    const exists = allProducts.find(item => item.id === product.id);
+    if (exists) {
+      const updatedProducts = allProducts.map(item =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setAllProducts(updatedProducts);
+    } else {
+      setAllProducts([...allProducts, { ...product, quantity: 1 }]);
     }
+    setTotal(total + product.price);
+    setCountProducts(countProducts + 1);
+  };
+
+  const onDeleteProduct = (product) => {
+    const filteredProducts = allProducts.filter(item => item.id !== product.id);
+    setTotal(total - product.price * product.quantity);
+    setCountProducts(countProducts - product.quantity);
+    setAllProducts(filteredProducts);
+  };
+
+  const onCleanCart = () => {
+    setAllProducts([]);
+    setTotal(0);
+    setCountProducts(0);
   };
 
   return (
-    <div className="cart">
-      <h2>Carrito de Compras</h2>
-      {allProducts.length ? (
-        <>
-          <div className="cart-products">
-            {allProducts.map(product => (
-              <div className="cart-product" key={product.id}>
-                <span>{product.quantity}x {product.title} - ${product.price}</span>
-                <button onClick={() => deleteFromCart(product)}>Eliminar</button>
-              </div>
-            ))}
-          </div>
-          <div className="cart-summary">
-            <h3>Total: ${total}</h3>
-            <button onClick={cleanCart}>Vaciar Carrito</button>
-            <button onClick={handleCheckout}> 
-              😀 Ir a pagar! 😋
-            </button>
-          </div>
-          {successMessage && ( // Muestra el mensaje de éxito si existe
-            <p className="bg-success text-light fs-5 p-3 rounded border border-success-subtle mt-3">
-              {successMessage}
-            </p>
-          )}
-        </>
-      ) : (
-        <p>El carrito está vacío</p>
-      )}
-    </div>
+    <Cart
+      allProducts={allProducts}
+      countProducts={countProducts}
+      total={total}
+      onAddProduct={onAddProduct}
+      onDeleteProduct={onDeleteProduct}
+      onCleanCart={onCleanCart}
+    />
   );
 };

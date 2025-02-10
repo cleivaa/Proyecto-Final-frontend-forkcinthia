@@ -1,7 +1,7 @@
 import React from 'react';
-import ProductCard from './ProductCard';
+import { ProductCard }  from './ProductCard';
 
-const ProductList = ({ products }) => {
+export const ProductList = ({ products }) => {
     const MAX_PRODUCTS = 4;
 
     return (
@@ -20,4 +20,3 @@ const ProductList = ({ products }) => {
     );
 };
 
-export default ProductList;
