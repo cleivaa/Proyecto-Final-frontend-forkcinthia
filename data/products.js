@@ -91,9 +91,68 @@ const products = [
         sale: true,
         rating: 5,
         description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
-        
-    }
-    // Agrega más productos aquí
+
+    },
+
+    {
+    
+           id: 9,
+           name: '6x Vaso Schopero La Barra 570cc',
+           image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=11803&field=image_1024',
+           price: '17990',
+           originalPrice: '19990',
+           buttonText: 'Añadir',
+           sale: true,
+           rating: 5,
+           description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+   
+       }
+       ,
+
+    {
+    
+           id: 10,
+           name: '6x Copa Cocktail La Barra 410cc',
+           image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=11806&field=image_1024',
+           price: '17990',
+           originalPrice: '19990',
+           buttonText: 'Añadir',
+           sale: true,
+           rating: 5,
+           description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+   
+       }
+       ,
+
+    {
+    
+           id: 11,
+           name: '6x Copa Ramazzotti 490cc',
+           image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=2586&field=image_1024',
+           price: '17990',
+           originalPrice: '19990',
+           buttonText: 'Añadir',
+           sale: true,
+           rating: 5,
+           description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+   
+       }
+       ,
+
+    {
+    
+           id: 12,
+           name: '6x Copa Ramazzotti Violetto 550cc',
+           image: 'https://labarraodoo.cloudccu.cl/web/image?model=product.product&id=12104&field=image_1024',
+           price: '17990',
+           originalPrice: '19990',
+           buttonText: 'Añadir',
+           sale: true,
+           rating: 5,
+           description: "Diseñado pensando en la comodidad y funcionalidad, este producto combina elegancia y practicidad. Sus características innovadoras lo convierten en una opción superior para quienes buscan calidad y estilo."
+   
+       }
+    
 ];
 
 export default products;
