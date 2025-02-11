@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
@@ -9,6 +9,16 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const { setUser, setIsAuthenticated } = useUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!localStorage.getItem("user")) {
+      const testUser = {
+        email: "usuario@ejemplo.com",
+        password: "123456"
+      };
+      localStorage.setItem("user", JSON.stringify(testUser));
+    }
+  }, []);
 
   const validarInput = (e) => {
     e.preventDefault();
@@ -26,18 +36,25 @@ export const Login = () => {
     }
 
     // Obtener usuario almacenado en localStorage
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = localStorage.getItem("user");
+      
+    if (!storedUser) {
+      setError("No hay usuario registrado.");
+      return;
+    }
+
+    const parsedUser = JSON.parse(storedUser);
 
     // Validar credenciales
-    if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+    if (parsedUser.email !== email || parsedUser.password !== password) {
       setError("Correo o contraseña incorrectos.");
-      return; // 🚨 Si falla, detenemos aquí.
+      return; 
     }
 
     // Si las credenciales son correctas
-    setUser(storedUser);
-    setIsAuthenticated(true);
-    localStorage.setItem("isAuthenticated", "true");
+    setUser(parsedUser);
+      setIsAuthenticated(true);
+      localStorage.setItem("isAuthenticated", "true");
 
     setError("");
     setEmail("");
