@@ -11,18 +11,35 @@ export const UserProvider = ({ children }) => {
   const [profile, setProfile] = useState(null); // Nuevo estado para almacenar el perfil del usuario
 
   // Método para hacer login
-  const login = async (email, password) => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    setToken(data.token); // Guardamos el token
-    setEmail(email);      // Guardamos el email
-  };
+  // const login = async (email, password) => {
+  //   const response = await fetch('/api/auth/login', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ email, password }),
+  //   });
+  //   const data = await response.json();
+  //   setToken(data.token); // Guardamos el token
+  //   setEmail(email);      // Guardamos el email
+  // };
+
+  const login = (email, password) => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!storedUser) {
+        alert("No hay usuario registrado. Regístrate primero.");
+        return;
+    }
+
+    if (storedUser.email === email && storedUser.password === password) {
+        setEmail(email);  // Guardamos el email
+        setToken("fake-jwt-token"); // Simulamos un token
+        localStorage.setItem("isAuthenticated", "true");
+    } else {
+        alert("Correo o contraseña incorrectos");
+    }
+};
 
   // Método para hacer logout
   const logout = () => {

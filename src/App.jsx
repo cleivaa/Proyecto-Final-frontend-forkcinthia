@@ -12,6 +12,7 @@ import Register from './assets/components/Register';
 import ProductGalery from './assets/components/ProductGalery';
 import { ProductCard } from './assets/components/ProductCard'; // Cambiado: eliminado los corchetes
 import ProductDetail from './assets/components/ProductDetail'; // Asegúrate de importar ProductDetail
+import Profile from "./assets/components/Profile";
 
 const App = () => {
     const [allProducts, setAllProducts] = useState([]);
@@ -109,6 +110,7 @@ const App = () => {
                                 />
                             } 
                         />
+                        <Route path="/profile" element={<Profile />} />
                     </Routes>
                 </div>
                 <Footer />
