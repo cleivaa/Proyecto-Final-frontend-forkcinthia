@@ -1,20 +1,57 @@
 import React, { useState } from 'react';
+import './Cart.css';
+import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 
 export const Cart = ({ allProducts, countProducts, total, onAddProduct, onDeleteProduct, onCleanCart }) => {
   return (
-    <div>
-      <h2>Carrito de Compras</h2>
-      <ul>
-        {allProducts.map(product => (
-          <li key={product.id}>
-            {product.name} - {product.quantity} x ${product.price}
-            <button onClick={() => onDeleteProduct(product)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
-      <p>Total: ${total}</p>
-      <p>Productos en el carrito: {countProducts}</p>
-      <button onClick={onCleanCart}>Limpiar Carrito</button>
+    <div className="cart-container">
+      <h2 className="cart-title">
+        <FaShoppingCart className="cart-icon" /> Carrito de Compras
+      </h2>
+      {allProducts.length ? (
+        <>
+          <ul className="cart-items">
+            {allProducts.map(product => (
+              <li key={product.id} className="cart-item">
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="cart-item-image"
+                />
+                <div className="cart-item-details">
+                  <h3>{product.name}</h3>
+                  <p className="cart-item-quantity">Cantidad: {product.quantity}</p>
+                  <p className="cart-item-price">${product.price}</p>
+                </div>
+                <button 
+                  className="delete-button bg-warning"
+                  onClick={() => onDeleteProduct(product)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="cart-summary">
+            <p className="cart-total">Total: <span>${total}</span></p>
+            <p className="cart-count">Productos: <span>{countProducts}</span></p>
+            <button 
+              className="clean-cart-button bg-black"
+              onClick={onCleanCart}
+            >
+              Limpiar Carrito
+            </button>
+            <button 
+              className="pay-button bg-black"
+              onClick={() => console.log('Ir a pagar')}
+            >
+              Ir a pagar
+            </button>
+          </div>
+        </>
+      ) : (
+        <p className="empty-cart">Tu carrito está vacío</p>
+      )}
     </div>
   );
 };
