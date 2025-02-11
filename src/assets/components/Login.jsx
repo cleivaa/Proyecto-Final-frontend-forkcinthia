@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useUser } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom'; 
-import './Login.css';
+import React, { useState } from "react";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 export const Login = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useUser(); 
-  const navigate = useNavigate(); 
+  const { login } = useUser();
+  const navigate = useNavigate();
 
   const validarInput = async (e) => {
     e.preventDefault();
@@ -19,20 +19,33 @@ export const Login = () => {
     }
 
     if (password.length < 6) {
-      setError("Recuerda que todas las contraseñas registradas tienen al menos 6 caracteres");
+      setError(
+        "Recuerda que todas las contraseñas registradas tienen al menos 6 caracteres"
+      );
       return;
     }
 
-    try {
-      await login({ email, password });
+    // try {
+    //   await login({ email, password });
 
+    //   setError("");
+    //   setEmail("");
+    //   setPassword("");
+
+    //   alert("Inicio de sesión completado exitosamente!");
+    //   navigate('/profile'); // Redirigir al perfil tras login exitoso
+
+    // } catch (err) {
+    //   setError("Error al iniciar sesión. Verifica tus credenciales.");
+    // }
+
+    try {
+      login(email, password); // No uses await si la función no es async
       setError("");
       setEmail("");
       setPassword("");
-
       alert("Inicio de sesión completado exitosamente!");
-      navigate('/profile'); // Redirigir al perfil tras login exitoso
-
+      navigate("/profile");
     } catch (err) {
       setError("Error al iniciar sesión. Verifica tus credenciales.");
     }
@@ -73,6 +86,7 @@ export const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   required
+                  autoComplete="current-password"
                 />
               </div>
             </div>

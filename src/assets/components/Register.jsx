@@ -23,8 +23,12 @@ const Register = () => {
     // Maneja el envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Datos del formulario:', formData);
-        alert('¡Te has registrado con éxito!');
+    
+        setTimeout(() => {
+            localStorage.setItem("user", JSON.stringify(formData));
+            localStorage.setItem("isAuthenticated", "false");
+            alert("¡Te has registrado con éxito!");
+        }, 0);
     };
 
     return (
@@ -55,6 +59,7 @@ const Register = () => {
                                 onChange={handleChange}
                                 placeholder="Ingresa tu contraseña"
                                 required
+                                autoComplete="new-password"
                             />
                         </div>
                         <div className="form-group">
