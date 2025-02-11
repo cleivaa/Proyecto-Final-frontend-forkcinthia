@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './Register.css';
+import { useNavigate } from "react-router-dom";
+
+
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -29,6 +33,7 @@ const Register = () => {
         localStorage.setItem("isAuthenticated", "true"); // Ahora queda autenticado tras registrarse.
     
         alert("¡Te has registrado con éxito!");
+        navigate("/Login");
     };
 
     return (
