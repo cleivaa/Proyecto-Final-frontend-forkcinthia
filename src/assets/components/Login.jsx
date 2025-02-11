@@ -7,10 +7,10 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useUser();
+  const { setUser, setIsAuthenticated } = useUser();
   const navigate = useNavigate();
 
-  const validarInput = async (e) => {
+  const validarInput = (e) => {
     e.preventDefault();
 
     if (!email.trim() || !password.trim()) {
@@ -25,30 +25,26 @@ export const Login = () => {
       return;
     }
 
-    // try {
-    //   await login({ email, password });
+    // Obtener usuario almacenado en localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
 
-    //   setError("");
-    //   setEmail("");
-    //   setPassword("");
-
-    //   alert("Inicio de sesión completado exitosamente!");
-    //   navigate('/profile'); // Redirigir al perfil tras login exitoso
-
-    // } catch (err) {
-    //   setError("Error al iniciar sesión. Verifica tus credenciales.");
-    // }
-
-    try {
-      login(email, password); // No uses await si la función no es async
-      setError("");
-      setEmail("");
-      setPassword("");
-      alert("Inicio de sesión completado exitosamente!");
-      navigate("/profile");
-    } catch (err) {
-      setError("Error al iniciar sesión. Verifica tus credenciales.");
+    // Validar credenciales
+    if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+      setError("Correo o contraseña incorrectos.");
+      return; // 🚨 Si falla, detenemos aquí.
     }
+
+    // Si las credenciales son correctas
+    setUser(storedUser);
+    setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
+
+    setError("");
+    setEmail("");
+    setPassword("");
+
+    alert("Inicio de sesión completado exitosamente!");
+    navigate("/profile");
   };
 
   return (
@@ -91,7 +87,7 @@ export const Login = () => {
               </div>
             </div>
             <hr />
-            <button type="submit" className="btn btn-dark mt-1">
+            <button type="submit" className="register-btn">
               Iniciar sesión
             </button>
             <hr />

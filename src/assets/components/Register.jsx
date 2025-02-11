@@ -24,11 +24,11 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        setTimeout(() => {
-            localStorage.setItem("user", JSON.stringify(formData));
-            localStorage.setItem("isAuthenticated", "false");
-            alert("¡Te has registrado con éxito!");
-        }, 0);
+        // Guardamos el usuario en localStorage
+        localStorage.setItem("user", JSON.stringify(formData));
+        localStorage.setItem("isAuthenticated", "true"); // Ahora queda autenticado tras registrarse.
+    
+        alert("¡Te has registrado con éxito!");
     };
 
     return (
