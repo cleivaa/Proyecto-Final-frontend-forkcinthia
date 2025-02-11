@@ -12,8 +12,16 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated) {
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) {
-        setUser(storedUser);
+
+      if (!storedUser) {
+        const testUser = {
+          email: "usuario@ejemplo.com",
+        password: "123456",
+        };
+        localStorage.setItem("user", JSON.stringify(testUser));
+        setUser(testUser);
+      } else {
+        setUser(storedUser)
       }
     }
   }, [isAuthenticated]);

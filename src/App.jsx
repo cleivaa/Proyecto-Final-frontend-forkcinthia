@@ -41,10 +41,18 @@ const App = () => {
     };
 
     const onDeleteProduct = (product) => {
-        const updatedProducts = allProducts.filter(item => item.id !== product.id);
+        const updatedProducts = allProducts.map(item =>
+             item.id === product.id ? {...item, quantity: item.quantity - 1 } : item
+        ). filter(item => item.quantity > 0);
+
         setAllProducts(updatedProducts);
         setTotal(calculateTotal(updatedProducts));
-        setCountProducts(countProducts - product.quantity);
+        setCountProducts(updatedProducts.reduce((total, item) => total + item.quantity, 0));
+
+       /* const updatedProducts = allProducts.filter(item => item.id !== product.id);
+        setAllProducts(updatedProducts);
+        setTotal(calculateTotal(updatedProducts));
+        setCountProducts(countProducts - product.quantity);*/
     };
 
     const onCleanCart = () => {
