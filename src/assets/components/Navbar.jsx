@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext'; // Importamos el contexto de usuario
+import { useUser } from '../../context/UserContext';
 
 const Navbar = ({ countProducts, total, allProducts, onDeleteProduct, onCleanCart }) => {
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const { token, logout } = useUser(); // Obtenemos el token y el método logout
-    const navigate = useNavigate(); // Hook para redirigir
+    const { isAuthenticated, logout } = useUser();
+    const navigate = useNavigate();
 
-    // Función para cerrar sesión y redirigir al home
     const handleLogout = () => {
-        logout(); // Llamamos a la función de logout
-        navigate("/"); // Redirigimos al usuario a la página de inicio
+        logout();
+        navigate("/"); // Redirigir al home
     };
-    
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-dark py-4">
@@ -40,8 +38,7 @@ const Navbar = ({ countProducts, total, allProducts, onDeleteProduct, onCleanCar
                             <Link className="nav-link text-white" to="/catalogo">Catálogo</Link>
                         </li>
 
-                        {/* Mostrar solo si el usuario NO está autenticado */}
-                        {!token && (
+                        {!isAuthenticated ? (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link text-white" to="/registrate">Registrarse</Link>
@@ -50,10 +47,7 @@ const Navbar = ({ countProducts, total, allProducts, onDeleteProduct, onCleanCar
                                     <Link className="nav-link text-white" to="/login">Iniciar Sesión</Link>
                                 </li>
                             </>
-                        )}
-
-                        {/* Mostrar solo si el usuario está autenticado */}
-                        {token && (
+                        ) : (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link text-white" to="/profile">Mi Perfil</Link>

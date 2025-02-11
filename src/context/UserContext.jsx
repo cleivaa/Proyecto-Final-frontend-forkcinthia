@@ -1,76 +1,42 @@
-import React, { createContext, useState, useContext } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
-// Creamos el contexto de User
-export const UserContext = createContext();
-
-export const useUser = () => useContext(UserContext);
+const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [profile, setProfile] = useState(null); // Nuevo estado para almacenar el perfil del usuario
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
 
-  // Método para hacer login
-  // const login = async (email, password) => {
-  //   const response = await fetch('/api/auth/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ email, password }),
-  //   });
-  //   const data = await response.json();
-  //   setToken(data.token); // Guardamos el token
-  //   setEmail(email);      // Guardamos el email
-  // };
-
-  const login = (email, password) => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (!storedUser) {
-        alert("No hay usuario registrado. Regístrate primero.");
-        return;
+  // Cargar usuario almacenado en localStorage si está autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser) {
+        setUser(storedUser);
+      }
     }
+  }, [isAuthenticated]);
 
-    if (storedUser.email === email && storedUser.password === password) {
-        setEmail(email);  // Guardamos el email
-        setToken("fake-jwt-token"); // Simulamos un token
-        localStorage.setItem("isAuthenticated", "true");
-    } else {
-        alert("Correo o contraseña incorrectos");
-    }
-};
-
-  // Método para hacer logout
-  const logout = () => {
-    setToken(null);
-    setEmail(null);
-    setProfile(null); // Eliminamos también el perfil del usuario
+  const login = (userData) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("isAuthenticated", "true");
   };
 
-  // Método para obtener el perfil del usuario autenticado
-  const getProfile = async () => {
-    if (!token) return; // Si no hay token, no se hace la petición
-
-    const response = await fetch('/api/auth/me', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`, // Pasamos el token en los headers
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const userProfile = await response.json();
-      setProfile(userProfile); // Guardamos el perfil en el estado
-    } else {
-      console.error('Error al obtener el perfil');
-    }
+  const logout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem("user");
+    localStorage.setItem("isAuthenticated", "false");
   };
 
   return (
-    <UserContext.Provider value={{ token, email, profile, login, logout, getProfile }}>
+    <UserContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated, login, logout }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export const useUser = () => useContext(UserContext);
