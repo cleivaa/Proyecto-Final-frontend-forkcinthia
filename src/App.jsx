@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './assets/components/Navbar';
 import Header from './assets/components/Header';
-import { ProductList } from './assets/components/ProductList';
 import Footer from './assets/components/Footer';
-import products from "../data/products";
 import { Login } from './assets/components/Login'; // Asegúrate de importar Login
 import { UserProvider } from './context/UserContext'; // Asegúrate de importar UserProvider
 import { Cart } from './assets/components/Cart';
@@ -18,6 +16,19 @@ const App = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [countProducts, setCountProducts] = useState(0);
     const [total, setTotal] = useState(0);
+    const [products, setProducts] = useState([]);
+
+    const consultarApi = async () => {
+        const url = "https://beer-chile-api.onrender.com/productos";
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("ejecutada consulta a productos", data)
+        setProducts(data);
+      };
+    
+      useEffect(() => {
+        consultarApi();
+      }, []);
 
     const calculateTotal = (products) => {
         return products.reduce((sum, product) => sum + (product.price * product.quantity), 0);
