@@ -14,26 +14,53 @@ const Register = () => {
         age: '',
         phone: ''
     });
+    const [error, setError] = useState('');
 
-    // Maneja el cambio de los campos del formulario
     const handleChange = (e) => {
-        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [e.target.name]: e.target.value
         });
     };
 
-    // Maneja el envío del formulario
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        // Guardamos el usuario en localStorage
-        localStorage.setItem("user", JSON.stringify(formData));
-        localStorage.setItem("isAuthenticated", "true"); // Ahora queda autenticado tras registrarse.
-    
-        alert("¡Te has registrado con éxito!");
-        navigate("/Login");
+        setError('');
+
+        // Validación básica de edad
+        if (parseInt(formData.age) < 18) {
+            setError("Debes ser mayor de 18 años para registrarte");
+            return;
+        }
+
+        // Validación básica de teléfono
+        const phoneRegex = /^\+?56\s?9\s?\d{8}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            setError("El formato del teléfono debe ser +56 9 XXXXXXXX");
+            return;
+        }
+
+        try {
+            const response = await fetch("https://beer-chile-api.onrender.com/register", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Error en el registro");
+            }
+
+            alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+            navigate("/login");
+        } catch (error) {
+            setError(error.message || "Error en la conexión con el servidor");
+        }
     };
 
     return (
@@ -118,6 +145,7 @@ const Register = () => {
                             />
                         </div>
                     </div>
+                    {error && <p className="error">{error}</p>}
                     <button type="submit" className="register-btn">Registrarse</button>
                 </form>
             </div>
