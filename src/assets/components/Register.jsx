@@ -26,20 +26,30 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
+    
         // Validación básica de edad
         if (parseInt(formData.age) < 18) {
             setError("Debes ser mayor de 18 años para registrarte");
             return;
         }
-
+    
         // Validación básica de teléfono
         const phoneRegex = /^\+?56\s?9\s?\d{8}$/;
         if (!phoneRegex.test(formData.phone)) {
             setError("El formato del teléfono debe ser +56 9 XXXXXXXX");
             return;
         }
-
+    
+        // Formatear los datos para coincidir con la base de datos
+        const formattedData = {
+            username: formData.name,  // Cambiado 'name' → 'username'
+            email: formData.email,
+            password: formData.password,
+            direccion: formData.address,  // Cambiado 'address' → 'direccion'
+            telefono: formData.phone,  // Cambiado 'phone' → 'telefono'
+            rol: "user" // Se asume un rol por defecto
+        };
+    
         try {
             const response = await fetch("https://beer-chile-api.onrender.com/register", {
                 method: "POST",
@@ -47,15 +57,15 @@ const Register = () => {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formattedData)
             });
-
+    
             const data = await response.json();
-
+    
             if (!response.ok) {
                 throw new Error(data.message || "Error en el registro");
             }
-
+    
             alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
             navigate("/login");
         } catch (error) {
