@@ -4,44 +4,58 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "true"
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Cargar usuario almacenado en localStorage si está autenticado
+  // Verificar si el usuario está autenticado al cargar la página
   useEffect(() => {
-    if (isAuthenticated) {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
 
-      if (!storedUser) {
-        const testUser = {
-          email: "usuario@ejemplo.com",
-        password: "123456",
-        };
-        localStorage.setItem("user", JSON.stringify(testUser));
-        setUser(testUser);
-      } else {
-        setUser(storedUser)
-      }
+    if (storedUser && token) {
+        setUser(storedUser);
+        setIsAuthenticated(true);
     }
-  }, [isAuthenticated]);
+}, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    setIsAuthenticated(true);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("isAuthenticated", "true");
-  };
+// Función para iniciar sesión
+const login = (userData, token) => {
+  setUser(userData);
+  setIsAuthenticated(true);
+  localStorage.setItem("user", JSON.stringify(userData));
+  localStorage.setItem("token", token);
+};
 
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem("user");
-    localStorage.setItem("isAuthenticated", "false");
-  };
+// Función para cerrar sesión
+const logout = () => {
+  setUser(null);
+  setIsAuthenticated(false);
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+};
+
+// Agregar verificación de token
+const verifyToken = async (token) => {
+  try {
+    const response = await fetch("https://beer-chile-api.onrender.com/verify-token", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    if (!response.ok) {
+      logout();
+    }
+  } catch (error) {
+    logout();
+  }
+};
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    verifyToken(token);
+  }
+}, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated, login, logout }}>
+    <UserContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
     </UserContext.Provider>
   );
