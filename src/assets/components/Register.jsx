@@ -47,6 +47,7 @@ const Register = () => {
             password: formData.password,
             direccion: formData.address,  // Cambiado 'address' → 'direccion'
             telefono: formData.phone,  // Cambiado 'phone' → 'telefono'
+            edad: parseInt(formData.age), // Aseguramos que la edad sea un número
             rol: "user" // Se asume un rol por defecto
         };
     
@@ -54,18 +55,17 @@ const Register = () => {
             const response = await fetch("https://beer-chile-api.onrender.com/register", {
                 method: "POST",
                 headers: { 
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formattedData)
             });
     
-            const data = await response.json();
-    
             if (!response.ok) {
-                throw new Error(data.message || "Error en el registro");
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Error en el registro");
             }
     
+            const data = await response.json();
             alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
             navigate("/login");
         } catch (error) {

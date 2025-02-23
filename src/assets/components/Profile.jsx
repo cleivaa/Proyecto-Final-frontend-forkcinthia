@@ -1,48 +1,66 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from '../../context/UserContext';
+import { useNavigate } from "react-router-dom";
 import './Profile.css';
 
 const Profile = () => {
-    // Estado para almacenar los datos del usuario
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        age: '',
-        address: '',
-        phone: ''
-    });
-    
-    // Estado para verificar si el usuario está autenticado
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    
-    // Estado para controlar si los campos son editables
+    const { user, isAuthenticated, logout } = useUser();
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // useEffect para obtener los datos del usuario desde localStorage
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-
-        if (storedUser && authStatus) {
-            setUserData(storedUser);
-            setIsAuthenticated(true);
+        if (isAuthenticated) {
+            setLoading(true);
+            fetch("https://beer-chile-api.onrender.com/profile", {
+                headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Error al cargar perfil");
+                return res.json();
+            })
+            .then(data => setUserData(data))
+            .catch(() => {
+                logout();
+                navigate("/login");
+            })
+            .finally(() => setLoading(false));
         }
-    }, []);
+    }, [isAuthenticated, logout, navigate]);
 
-    // Función para habilitar o deshabilitar la edición de datos
-    const handleEdit = () => {
+    if (loading) return <div>Cargando...</div>;
+    if (!isAuthenticated || !userData) return <div>Acceso denegado. <button onClick={() => navigate("/login")}>Iniciar sesión</button></div>;
+
+    const handleEdit = async () => {
+        if (isEditing) {
+            try {
+                const response = await fetch("https://beer-chile-api.onrender.com/profile", {
+                    method: "PUT",
+                    headers: { 
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error al actualizar el perfil");
+                }
+
+                alert("Perfil actualizado exitosamente");
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
+        }
         setIsEditing(!isEditing);
     };
 
-
-    // Si el usuario no está autenticado, muestra un mensaje de acceso denegado
-    if (!isAuthenticated) {
-        return (
-            <div className="profile-container">
-                <h2>No tienes acceso al perfil</h2>
-                <p>Por favor, inicia sesión para ver tu perfil.</p>
-            </div>
-        );
-    }
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
 
     return (
         <div className="profile-container">
@@ -107,7 +125,7 @@ const Profile = () => {
             <button className="edit-button" onClick={handleEdit}>
                 {isEditing ? 'Guardar cambios' : 'Editar datos'}
             </button>
-            {/* <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button> */}
+            <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
         </div>
     );
 };
